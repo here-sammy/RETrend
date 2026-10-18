@@ -223,7 +223,3 @@ Rough edges:
 - News tone is scored by word lists, which is crude, and the Google feed is unofficial.
 - FRED metro series IDs are found by searching titles; pin them in `config/fred_series.yaml` if a match is wrong.
 - A ZIP code is treated as "the city it is mailed to".
-
-## License
-
-MIT. See [LICENSE](LICENSE).
