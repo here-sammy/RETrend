@@ -1,0 +1,20 @@
+# Test cities for development and backtesting.
+#
+# County FIPS and CBSA codes were entered by hand: verify them against the Census
+# delineation files before relying on them. ZIP lists are intentionally empty here;
+# the location resolver (Phase 2) will populate them from a ZIP crosswalk.
+cities:
+  - city: Seattle
+    state: WA
+    county_fips: "53033"   # King County
+    cbsa: "42660"          # Seattle-Tacoma-Bellevue
+
+  - city: Austin
+    state: TX
+    county_fips: "48453"   # Travis County
+    cbsa: "12420"          # Austin-Round Rock-Georgetown
+
+  - city: Phoenix
+    state: AZ
+    county_fips: "04013"   # Maricopa County (quoted: leading zero matters)
+    cbsa: "38060"          # Phoenix-Mesa-Chandler

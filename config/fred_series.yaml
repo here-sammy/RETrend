@@ -1,0 +1,8 @@
+# Optional. Pin FRED series IDs for a city when the automatic title search picks the wrong one
+# (or finds none). Keys are city keys such as seattle-wa. Kinds: unemployment, payrolls, permits.
+# Look an ID up on https://fred.stlouisfed.org (search "Unemployment Rate in <metro>").
+#
+# seattle-wa:
+#   unemployment: SEAT653URN
+#   payrolls: SEAT653NA
+#   permits: SEAT653BPPRIV

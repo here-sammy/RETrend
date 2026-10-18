@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RETrend</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' rx='14' fill='%232A6B8C'/%3E%3Cpath d='M12 45V25L28 12l16 13v20z' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M19 37l7-7 5 4 11-14M34 19h9v9' fill='none' stroke='%23FFD27A' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --paper:#EDF1F0; --card:#F8FAF9; --ink:#1B2830; --muted:#56656E; --line:#CBD5D5;
+  --accent:#2A6B8C; --up:#1C7C5B; --down:#B2432F; --flat:#667985; --onaccent:#fff; --logo-bg:#1B2830; --logo-line:#EDF1F0; --logo-arrow:#FFB547; --shadow:0 1px 2px rgba(27,40,48,.06),0 6px 18px rgba(27,40,48,.06); --grid:rgba(42,107,140,.08);
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#10181D; --card:#17222A; --ink:#E2EAEC; --muted:#93A4AD; --line:#2A3841;
+  --accent:#6FB3D2; --up:#52C79B; --down:#FF8C78; --flat:#9DB0BA; --onaccent:#10181D; --logo-bg:#E2EAEC; --logo-line:#17222A; --logo-arrow:#C2791A; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.25); --grid:rgba(111,179,210,.08);}}
+:root[data-theme="dark"]{
+  --paper:#10181D; --card:#17222A; --ink:#E2EAEC; --muted:#93A4AD; --line:#2A3841;
+  --accent:#6FB3D2; --up:#52C79B; --down:#FF8C78; --flat:#9DB0BA; --onaccent:#10181D; --logo-bg:#E2EAEC; --logo-line:#17222A; --logo-arrow:#C2791A; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.25); --grid:rgba(111,179,210,.08);}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;color:var(--ink);font:16px/1.5 var(--sans)}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{flex:none;filter:drop-shadow(0 3px 6px rgba(27,40,48,.25))}
+h1{font:700 2rem/1 var(--sans);margin:0;letter-spacing:-.02em}
+h1 span{color:var(--accent)}
+.tag{margin:4px 0 0;color:var(--muted);font-size:.92rem}
+a{color:var(--accent)}
+.ask{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:10px;padding:20px;box-shadow:var(--shadow)}
+label.q{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:7px 10px}
+textarea{width:100%;min-height:76px;resize:vertical;font:1.05rem/1.4 var(--sans);color:var(--ink);background:var(--paper);
+  border:1px solid var(--line);border-radius:8px;padding:12px}
+.row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.row .grow{flex:1 1 220px}
+select{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+button{font:600 1rem var(--sans);background:var(--accent);color:var(--onaccent);border:0;border-radius:8px;padding:10px 28px;cursor:pointer;box-shadow:0 2px 6px rgba(42,107,140,.35)}
+button:hover:not(:disabled){filter:brightness(1.08)}
+button:disabled{opacity:.55;cursor:progress}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hint{color:var(--muted);font-size:.9rem}
+.examples{margin:14px 0 0;width:100%;border-collapse:collapse;font-size:.92rem}
+.examples caption{text-align:left;color:var(--muted);font-size:.88rem;padding-bottom:6px}
+.examples th,.examples td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.examples th{font-weight:600;color:var(--muted)}.examples td:first-child{white-space:nowrap;width:1%}
+.warn{margin:12px 0 0;padding:8px 12px;border-left:4px solid var(--down);background:var(--card);font-size:.92rem}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;margin-top:26px;align-items:start}
+@media(max-width:820px){.cols{grid-template-columns:1fr}}
+.answer{font:1.2rem/1.65 var(--serif);max-width:68ch;margin:0 0 6px;white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;box-shadow:var(--shadow)}
+.answer:empty{display:none}
+.by{color:var(--muted);font-size:.85rem;margin-bottom:18px}
+.note{color:var(--muted);font-size:.9rem;margin:4px 0}
+.place{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--flat);border-radius:10px;padding:16px 18px;margin:16px 0;max-width:68ch;box-shadow:var(--shadow)}
+.place.up{border-left-color:var(--up)}.place.down{border-left-color:var(--down)}
+.place h2{margin:0 0 2px;font:600 1.05rem var(--sans)}
+.dir{font-weight:700;padding:1px 10px;border-radius:999px;border:1.5px solid currentColor}.dir.up{color:var(--up)}.dir.down{color:var(--down)}.dir.flat{color:var(--flat)}
+.track{position:relative;height:10px;margin:14px 6px 4px;background:linear-gradient(90deg,var(--down),var(--line) 50%,var(--up));border-radius:4px;opacity:.8}
+.track::after{content:"";position:absolute;left:50%;top:-4px;width:1px;height:16px;background:var(--muted)}
+.mark{position:absolute;top:-5px;width:6px;height:18px;margin-left:-3px;background:var(--ink);border-radius:2px;z-index:1}
+.ends{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin:0 0 8px}
+ul.sig{list-style:none;margin:8px 0 0;padding:0}
+ul.sig li{padding:6px 0;border-top:1px solid var(--line);font-size:.93rem}
+.tag{font-weight:600}
+.trail{position:sticky;top:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;box-shadow:var(--shadow)}
+.trail h2{margin:0 0 8px;font:600 1rem var(--sans)}
+.trail ol{margin:0;padding:0;list-style:none}
+.trail li{padding:7px 0 7px 18px;border-top:1px solid var(--line);position:relative;font-size:.9rem}
+.trail li::before{content:"";position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:var(--flat)}
+.trail li.run::before{background:var(--accent)}
+.trail li.ok::before{background:var(--up)}
+.trail li.fail::before{background:var(--down)}
+.trail .m{color:var(--muted)}
+.trail li,ul.sig li,.note{overflow-wrap:anywhere}
+.hist{margin-top:34px;max-width:68ch}.hist h2{font:600 1rem var(--sans)}
+.hist button{all:unset;cursor:pointer;color:var(--accent);text-decoration:underline}
+.hist li{margin:4px 0}
+.empty{color:var(--muted)}
+@media(prefers-reduced-motion:no-preference){.track .mark{transition:left .5s ease}}
+
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;padding:22px 14px;border-right:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;gap:22px;box-shadow:var(--shadow)}
+.side .brand{padding:0 6px}
+.side h1{font-size:1.5rem}
+.side .tag{font-size:.8rem;line-height:1.3}
+nav.menu{display:flex;flex-direction:column;gap:4px}
+nav.menu a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--ink);text-decoration:none;font-weight:600;border-left:4px solid transparent}
+nav.menu a svg{flex:none;width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;color:var(--muted)}
+nav.menu a:hover{background:var(--paper)}
+nav.menu a[aria-current="page"]{background:var(--paper);border-left-color:var(--accent);color:var(--accent)}
+nav.menu a[aria-current="page"] svg{color:var(--accent)}
+.foot{margin-top:auto;font-size:.8rem;color:var(--muted);padding:0 6px}
+.content{padding:26px 28px 56px;max-width:1120px;width:100%}
+.content h2.page{font:700 1.5rem/1.2 var(--sans);margin:0 0 4px}
+.content p.lead{margin:0 0 18px;color:var(--muted);max-width:70ch}
+@media(max-width:820px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:12px 14px;gap:10px 18px}
+  .side .tag,.foot{display:none}
+  nav.menu{flex-direction:row;flex-wrap:wrap}
+  nav.menu a{padding:8px 10px;border-left:0;border-bottom:3px solid transparent}
+  nav.menu a[aria-current="page"]{border-bottom-color:var(--accent)}
+  .content{padding:18px 16px 48px}
+}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;box-shadow:var(--shadow)}
+.tile b{display:block;font:700 1.3rem/1.2 var(--sans)}.tile span{color:var(--muted);font-size:.82rem}
+.tile b.up{color:var(--up)}.tile b.down{color:var(--down)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;box-shadow:var(--shadow);margin:14px 0}
+.chartbox{position:relative}
+.chart{width:100%;height:auto;margin:6px 0 2px;touch-action:none}
+.chart .ln{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round}
+.chart .area{fill:var(--accent);opacity:.08}.chart .zero{stroke:var(--muted);stroke-dasharray:3 3;stroke-width:1}
+.chart .dot{fill:var(--accent)}.chart .hov{fill:var(--ink);stroke:var(--card);stroke-width:2}
+.chart text{fill:var(--muted);font-size:11px}.chart .grid{stroke:var(--line);stroke-width:1}
+.readout{min-height:1.5em;font-weight:600;font-size:.95rem}
+.scroll{max-height:320px;overflow:auto;border:1px solid var(--line);border-radius:8px;margin-top:10px}
+table.dtable{border-collapse:collapse;width:100%;font-size:.9rem}
+table.dtable td,table.dtable th{padding:5px 10px;border-top:1px solid var(--line);text-align:right}
+table.dtable th{position:sticky;top:0;background:var(--card);border-top:0;border-bottom:1px solid var(--line)}
+table.dtable th:first-child,table.dtable td:first-child{text-align:left}
+.formbar{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:10px;padding:14px 18px;box-shadow:var(--shadow)}
+.formbar .row{margin-top:0}
+.msg{margin:14px 0;padding:10px 14px;border-left:4px solid var(--down);background:var(--card);border-radius:0 8px 8px 0}
+.msg.info{border-left-color:var(--accent)}
+.seeall{display:inline-block;margin:6px 0 12px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+  <div class="brand" style="display:flex;align-items:center;gap:12px"><svg class="logo" viewBox="0 0 56 56" width="44" height="44" role="img" aria-label="RETrend logo: a house with a rising arrow">
+  <rect x="1" y="1" width="54" height="54" rx="14" fill="var(--logo-bg)"/>
+  <path d="M12 45V25L28 12l16 13v20z" fill="none" stroke="var(--logo-line)" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M19 37l7-7 5 4 11-14" fill="none" stroke="var(--logo-arrow)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M34 19h9v9" fill="none" stroke="var(--logo-arrow)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg><div><h1>RE<span>Trend</span></h1><p class="tag">Where U.S. home prices are heading, and why</p></div></div>
+  <nav class="menu" aria-label="Sections">
+    <a href="#ask" data-view="ask"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/></svg>Ask RETrend</a>
+    <a href="#schools" data-view="schools"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.500 6-3v-4.500"/></svg>School enrollment</a>
+    <a href="#prices" data-view="prices"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>Home prices</a>
+    <a href="/monthly/latest" id="monthly" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>Monthly report</a>
+  </nav>
+  <div class="foot">Signals about direction, not predictions.</div>
+</aside>
+
+<div class="content">
+
+<section id="view-ask" data-panel="ask">
+<h2 class="page">Ask RETrend</h2>
+<p class="lead">Ask in plain language. RETrend picks the signals it needs, runs them, and explains the result.</p>
+<form class="ask" id="form">
+  <label class="q" for="query">Ask about a housing market</label>
+  <textarea id="query" maxlength="500" placeholder="Will home prices rise in Seattle, WA over the next year?"></textarea>
+  <div class="row">
+    <label>Model <select id="model"></select></label>
+    <label>Answer written by <select id="writer"></select></label>
+    <label class="grow hint"><input type="checkbox" id="judge"> Model also reads each signal (slower; a local model on a CPU can take minutes per question)</label>
+    <button id="go" type="submit">Ask</button>
+  </div>
+  <table class="examples" id="examples"><caption>Sample questions. Every question runs all seven signals; the first column shows which one it puts the spotlight on.</caption>
+    <thead><tr><th scope="col">Signal</th><th scope="col">Try asking</th></tr></thead><tbody></tbody></table>
+  <div id="warnings"></div>
+</form>
+
+<div class="cols" id="out" hidden>
+  <main>
+    <div id="status" class="hint" role="status" aria-live="polite"></div>
+    <p class="answer" id="answer"></p>
+    <div class="by" id="by"></div>
+    <div id="notes"></div>
+    <div id="places"></div>
+  </main>
+  <aside class="trail" aria-label="How this was answered">
+    <h2>How this was answered</h2>
+    <ol id="trail"></ol>
+  </aside>
+</div>
+
+<section class="hist" id="hist" hidden><h2>Recent questions</h2><ul id="histlist"></ul></section>
+</section>
+
+<section id="view-schools" data-panel="schools" hidden>
+<h2 class="page">School enrollment</h2>
+<p class="lead">Public-school enrollment for the district that matches a city, for every year in your school file. Enrollment is a slow, indirect signal for home prices and says nothing about school quality.</p>
+<form class="formbar" id="schoolform">
+  <div class="row">
+    <label>City <input id="sc-city" type="text" maxlength="60" placeholder="Seattle" autocomplete="off"></label>
+    <label>State <input id="sc-state" type="text" maxlength="2" size="3" placeholder="WA" autocomplete="off"></label>
+    <label>or ZIP <input id="sc-zip" type="text" inputmode="numeric" maxlength="5" size="6" placeholder="98101" autocomplete="off"></label>
+    <label>Show <select id="sc-metric"><option value="students">Students</option><option value="change">Yearly change (%)</option></select></label>
+    <button type="submit" id="sc-go">Show enrollment</button>
+  </div>
+</form>
+<div id="sc-out" role="status" aria-live="polite"></div>
+</section>
+
+<section id="view-prices" data-panel="prices" hidden>
+<h2 class="page">Home prices</h2>
+<p class="lead">Zillow home values and rents for a city, over time. Pick a measure and a time range. Zillow indexes are smoothed estimates, not sale prices.</p>
+<form class="formbar" id="priceform">
+  <div class="row">
+    <label>City <input id="pr-city" type="text" maxlength="60" placeholder="Austin" autocomplete="off"></label>
+    <label>State <input id="pr-state" type="text" maxlength="2" size="3" placeholder="TX" autocomplete="off"></label>
+    <label>or ZIP <input id="pr-zip" type="text" inputmode="numeric" maxlength="5" size="6" placeholder="78701" autocomplete="off"></label>
+    <label>Measure <select id="pr-series"></select></label>
+    <label>Range <select id="pr-range"><option value="60">Last 5 years</option><option value="120">Last 10 years</option><option value="0">All available</option></select></label>
+    <button type="submit" id="pr-go">Show trends</button>
+  </div>
+</form>
+<div id="pr-out" role="status" aria-live="polite"></div>
+</section>
+
+</div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const LABELS = {housing_prices:"Home prices and rents", supply:"Supply and demand", mortgage_rates:"Mortgage rates", schools:"School enrollment", jobs:"Local jobs", permits:"Building permits", news:"News tone"};
+let busy = false;
+
+function el(tag, cls, text){ const e=document.createElement(tag); if(cls) e.className=cls; if(text!==undefined) e.textContent=text; return e; }
+
+async function init(){
+  try{
+    const c = await (await fetch("/api/config")).json();
+    const lab = c.model_labels || {};
+    for(const m of c.models){ const o=el("option",null,lab[m]||m); o.value=m; $("model").appendChild(o);
+      if(m!=="baseline"){ const w=el("option",null,lab[m]||m); w.value=m; $("writer").appendChild(w); } }
+    { const t=el("option",null,"template (no model)"); t.value="template"; $("writer").appendChild(t); }
+    for(const ex of c.examples){
+      const tr=el("tr"); tr.appendChild(el("td",null,ex.signal));
+      const td=el("td"); const a=el("a",null,ex.question); a.href="#"; a.addEventListener("click",e=>{e.preventDefault();$("query").value=ex.question;$("query").focus();});
+      td.appendChild(a); tr.appendChild(td); $("examples").tBodies[0].appendChild(tr);
+    }
+    for(const w of c.warnings){ $("warnings").appendChild(el("p","warn",w)); }
+    $("monthly").hidden = !c.has_monthly;
+  }catch(e){ $("warnings").appendChild(el("p","warn","Could not reach the local server.")); }
+  loadHistory();
+}
+async function loadHistory(){
+  try{
+    const r = await (await fetch("/api/history")).json();
+    const ul=$("histlist"); ul.textContent="";
+    for(const it of r.items||[]){
+      const li=el("li"); const b=el("button",null,it.query); b.type="button";
+      b.addEventListener("click",()=>{$("query").value=it.query;$("query").focus();});
+      li.appendChild(b); ul.appendChild(li);
+    }
+    $("hist").hidden = !(r.items||[]).length;
+  }catch(e){}
+}
+function step(text, cls, sub){
+  const li=el("li",cls); li.appendChild(el("span",null,text));
+  if(sub){ li.appendChild(el("div","m",sub)); }
+  $("trail").appendChild(li); return li;
+}
+function setStep(li, cls, text, sub){
+  li.className=cls; li.textContent=""; li.appendChild(el("span",null,text));
+  if(sub) li.appendChild(el("div","m",sub));
+}
+const rows = {};
+function onEvent(ev){
+  if(ev.event==="plan"){
+    const p=ev.plan; $("status").textContent="Working on it…";
+    const where = p.locations.map(l=>l.city+", "+l.state).join("; ") || "no place named";
+    const ws = p.workers.map(w=>LABELS[w]||w).join(", ") || "none";
+    step("Read the question","ok", p.intent==="clarify"||p.intent==="out_of_scope" ? "Needs a different question" :
+      "Places: "+where+". Signals: "+ws+(p.reason?" ("+p.reason+")":"")+" Planned by "+p.planner+".");
+    if(p.unsupported.length) step("Not covered","fail","This tool has no "+p.unsupported.join(", ")+" data.");
+  } else if(ev.event==="worker_start"){
+    rows[ev.worker+"@"+ev.place]=step((LABELS[ev.worker]||ev.worker)+" · "+ev.place,"run","Running…");
+  } else if(ev.event==="worker_done"){
+    const li=rows[ev.worker+"@"+ev.place]; if(!li) return;
+    const sec=(ev.ms/1000).toFixed(1)+" s";
+    if(ev.ok) setStep(li,"ok",(LABELS[ev.worker]||ev.worker)+" · "+ev.place, (ev.worker==="schools"?"Enrollment trend: ":"Price pressure: ")+ev.direction+", "+sec+(ev.judged_by?" · "+ev.judged_by:"")+(ev.data_as_of?" · data to "+ev.data_as_of:""));
+    else setStep(li,"fail",(LABELS[ev.worker]||ev.worker)+" · "+ev.place, ev.error);
+  } else if(ev.event==="composing"){
+    rows.compose=step("Writing the answer","run","Combining the signals…");
+  } else if(ev.event==="answer"){
+    $("answer").textContent=ev.answer;
+    $("by").textContent = ev.written_by==="template" ? "Written from a fixed template" : ev.written_by==="direct lookup" ? "Looked up directly from the school file; no model involved" : "Written by "+ev.written_by+", checked against the data";
+    (ev.outlooks||[]).forEach(renderPlace);
+    renderSchoolLinks(ev.schools||[]);
+    renderHeadlines(ev.headlines||{});
+    for(const n of ev.notes||[]) $("notes").appendChild(el("p","note",n));
+    if(rows.compose) setStep(rows.compose,"ok","Wrote the answer",ev.written_by==="template"?"Template":ev.written_by);
+  } else if(ev.event==="note"){
+    $("notes").appendChild(el("p","note",ev.text));
+  } else if(ev.event==="error"){
+    $("answer").textContent="Something went wrong: "+ev.message;
+  } else if(ev.event==="done"){
+    $("status").textContent="Done in "+ev.seconds+" s.";
+  }
+}
+function renderPlace(o){
+  const d=el("section","place"); const name=o.location.city+", "+o.location.state;
+  const h=el("h2"); h.appendChild(document.createTextNode(name+": prices "));
+  h.appendChild(el("span","dir "+o.direction, o.direction)); d.className="place "+o.direction; d.appendChild(h);
+  d.appendChild(el("div","hint","Score "+(o.score>=0?"+":"")+o.score.toFixed(2)+" · "+o.uncertainty));
+  const t=el("div","track"); const m=el("div","mark"); m.style.left=((o.score+1)/2*100)+"%"; m.setAttribute("role","img");
+  m.setAttribute("aria-label","Score "+o.score.toFixed(2)+" on a scale from -1 to +1"); t.appendChild(m); d.appendChild(t);
+  const ends=el("div","ends"); ends.appendChild(el("span",null,"Downward pressure")); ends.appendChild(el("span",null,"Upward pressure")); d.appendChild(ends);
+  const ul=el("ul","sig");
+  const add=(c,kind)=>{const li=el("li"); li.appendChild(el("span","tag",(LABELS[c.worker]||c.worker)+" ("+kind+", "+c.direction+"): ")); li.appendChild(document.createTextNode(c.summary)); ul.appendChild(li);};
+  o.drivers.forEach(c=>add(c,"supports")); o.dissent.forEach(c=>add(c,"disagrees")); (o.context||[]).forEach(c=>add(c,"context only"));
+  for(const [w,why] of Object.entries(o.missing_workers||{})){ const li=el("li"); li.appendChild(el("span","tag",(LABELS[w]||w)+" (missing): ")); li.appendChild(document.createTextNode(why)); ul.appendChild(li); }
+  d.appendChild(ul); $("places").appendChild(d);
+}
+
+// ---------- navigation ----------
+const VIEWS=["ask","schools","prices"];
+function showView(){
+  let v=(location.hash||"#ask").slice(1); if(!VIEWS.includes(v)) v="ask";
+  document.querySelectorAll("[data-panel]").forEach(p=>p.hidden=p.dataset.panel!==v);
+  document.querySelectorAll("nav.menu a[data-view]").forEach(a=>{ if(a.dataset.view===v) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+  document.title=({ask:"Ask",schools:"School enrollment",prices:"Home prices"})[v]+" · RETrend";
+}
+window.addEventListener("hashchange",showView);
+
+// ---------- shared chart ----------
+const NS="http://www.w3.org/2000/svg";
+function svgEl(tag,attrs,text){const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(text!==undefined) e.textContent=text; return e;}
+// pts: [{x:number, y:number, label:string}], opts: {fmt:fn, ticks:[{x,label}], zero:bool, desc:string}
+function drawChart(host,pts,opts){
+  host.textContent="";
+  if(pts.length<2){ host.appendChild(el("p","hint","Not enough data points to draw a chart.")); return; }
+  const W=Math.max(300,Math.min(900,host.clientWidth||720)),H=W<500?230:260,L=W<500?60:70,R=14,T=12,B=30;
+  const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
+  const x0=Math.min(...xs), x1=Math.max(...xs); let lo=Math.min(...ys), hi=Math.max(...ys);
+  if(opts.zero){ lo=Math.min(lo,0); hi=Math.max(hi,0); }
+  const pad=(hi-lo)*0.08||1; lo-=pad; hi+=pad;
+  const X=v=>L+(v-x0)/(x1-x0||1)*(W-L-R), Y=v=>T+(1-(v-lo)/(hi-lo))*(H-T-B);
+  const svg=svgEl("svg",{viewBox:`0 0 ${W} ${H}`,class:"chart",role:"img","aria-label":opts.desc});
+  for(let i=0;i<=4;i++){ const v=lo+(hi-lo)*i/4, y=Y(v);
+    svg.appendChild(svgEl("line",{x1:L,x2:W-R,y1:y,y2:y,class:"grid"}));
+    svg.appendChild(svgEl("text",{x:L-8,y:y+4,"text-anchor":"end"},opts.fmt(v))); }
+  if(opts.zero && lo<0 && hi>0) svg.appendChild(svgEl("line",{x1:L,x2:W-R,y1:Y(0),y2:Y(0),class:"zero"}));
+  (opts.ticks||[]).forEach(t=>svg.appendChild(svgEl("text",{x:X(t.x),y:H-8,"text-anchor":"middle"},t.label)));
+  const d=pts.map((p,i)=>(i?"L":"M")+X(p.x).toFixed(1)+" "+Y(p.y).toFixed(1)).join("");
+  svg.appendChild(svgEl("path",{d:d+`L${X(x1)} ${Y(Math.max(lo,Math.min(0,hi)))}L${X(x0)} ${Y(Math.max(lo,Math.min(0,hi)))}Z`,class:"area"}));
+  svg.appendChild(svgEl("path",{d,class:"ln"}));
+  if(pts.length<=40) pts.forEach(p=>svg.appendChild(svgEl("circle",{cx:X(p.x),cy:Y(p.y),r:3,class:"dot"})));
+  const hov=svgEl("circle",{r:5,class:"hov",visibility:"hidden"}); svg.appendChild(hov);
+  const read=el("div","readout"," "); read.setAttribute("aria-live","off");
+  const move=ev=>{ const r=svg.getBoundingClientRect(); const px=(ev.clientX-r.left)/r.width*W;
+    let best=pts[0],bd=1e18; for(const p of pts){const dd=Math.abs(X(p.x)-px); if(dd<bd){bd=dd;best=p;}}
+    hov.setAttribute("cx",X(best.x)); hov.setAttribute("cy",Y(best.y)); hov.setAttribute("visibility","visible");
+    read.textContent=best.label+": "+opts.fmt(best.y,true); };
+  svg.addEventListener("pointermove",move); svg.addEventListener("pointerdown",move);
+  svg.addEventListener("pointerleave",()=>{hov.setAttribute("visibility","hidden");});
+  const box=el("div","chartbox"); box.appendChild(svg); host.appendChild(box); host.appendChild(read);
+}
+function fmtInt(v){return Math.round(v).toLocaleString();}
+function sgn(v,d=1){return (v>=0?"+":"")+v.toFixed(d)+"%";}
+function tile(label,value,cls){const t=el("div","tile"); const b=el("b",cls||"",value); t.appendChild(b); t.appendChild(el("span",null,label)); return t;}
+function tableOf(heads,rows){
+  const wrap=el("div","scroll"); const t=el("table","dtable"); const hd=el("tr"); heads.forEach(x=>hd.appendChild(el("th",null,x))); t.appendChild(hd);
+  rows.forEach(r=>{const tr=el("tr"); r.forEach(c=>tr.appendChild(el("td",null,c))); t.appendChild(tr);}); wrap.appendChild(t); return wrap;
+}
+async function getJSON(url){
+  const r=await fetch(url); const j=await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(j.error||("HTTP "+r.status)); return j;
+}
+function cityState(cityId,stateId,zipId){
+  const zip=$(zipId).value.trim();
+  if(zip){ if(!/^\d{5}$/.test(zip)){ $(zipId).focus(); return null; } return {city:"",st:"",zip}; }
+  const city=$(cityId).value.trim().replace(/\b\w/g,m=>m.toUpperCase()), st=$(stateId).value.trim().toUpperCase();
+  if(!city){ $(cityId).focus(); return null; }
+  if(st.length!==2){ $(stateId).focus(); return null; }
+  return {city,st,zip:""};
+}
+function lookupUrl(path,cs){ return path+"?city="+encodeURIComponent(cs.city)+"&state="+encodeURIComponent(cs.st)+"&zip="+encodeURIComponent(cs.zip); }
+function showResolved(cityId,stateId,zipId,d){ if($(zipId).value.trim()){ $(cityId).value=d.city; $(stateId).value=d.state; } }
+
+// ---------- school enrollment tab ----------
+let schoolCard=null;
+function renderSchoolTab(){
+  const host=$("sc-out"); host.textContent=""; const c=schoolCard; if(!c) return;
+  const h=c.history, metric=$("sc-metric").value;
+  host.appendChild(el("h3",null,c.place+": "+c.district)).style.cssText="margin:18px 0 0;font:600 1.15rem var(--sans)";
+  host.appendChild(el("div","hint","Matched by name to the city; district boundaries rarely equal city limits."));
+  const tiles=el("div","tiles");
+  tiles.appendChild(tile("Students, fall "+c.latest_year,fmtInt(c.latest_students)));
+  if(c.yoy_pct!==null) tiles.appendChild(tile("vs the year before",sgn(c.yoy_pct),c.yoy_pct>=0?"up":"down"));
+  if(c.cagr3_pct!==null) tiles.appendChild(tile("3-year average per year",sgn(c.cagr3_pct),c.cagr3_pct>=0?"up":"down"));
+  if(c.change_5y_pct!==null) tiles.appendChild(tile("over 5 years",sgn(c.change_5y_pct),c.change_5y_pct>=0?"up":"down"));
+  tiles.appendChild(tile("School years in the file",h.length+" ("+h[0].year+" to "+h[h.length-1].year+")"));
+  host.appendChild(tiles);
+  if(c.latest_year<2024){
+    const m=el("div","msg info"); m.appendChild(document.createTextNode("The newest school year in your file is fall "+c.latest_year+". Federal district data usually trails by about two years. To look for newer years, run "));
+    m.appendChild(el("code",null,"retrend schools-fetch --end 2024")); m.appendChild(document.createTextNode(", then reload.")); host.appendChild(m);
+  }
+  const panel=el("div","panel"); const chart=el("div"); panel.appendChild(chart); host.appendChild(panel);
+  const pts=metric==="students" ? h.map(r=>({x:r.year,y:r.students,label:"Fall "+r.year+" ("+r.year+"-"+String(r.year+1).slice(2)+")"}))
+                                : h.filter(r=>r.change_pct!==null).map(r=>({x:r.year,y:r.change_pct,label:"Fall "+r.year}));
+  const step=Math.max(1,Math.ceil(h.length/8)); const ticks=h.filter((r,i)=>i%step===0).map(r=>({x:r.year,label:String(r.year)}));
+  drawChart(chart,pts,{fmt:(v,tip)=>metric==="students"?fmtInt(v)+(tip?" students":""):sgn(v),ticks,zero:metric!=="students",
+    desc:(metric==="students"?"Enrollment":"Yearly enrollment change")+" for "+c.district+", "+h[0].year+" to "+h[h.length-1].year});
+  host.appendChild(tableOf(["School year","Students","Change"],h.slice().reverse().map(r=>[r.year+"-"+String(r.year+1).slice(2),fmtInt(r.students),r.change_pct===null?"":sgn(r.change_pct)])));
+  const ul=el("ul","sig"); c.caveats.forEach(x=>ul.appendChild(el("li",null,x))); host.appendChild(ul);
+}
+async function loadSchools(cs){
+  const host=$("sc-out"); host.textContent="Loading…"; $("sc-go").disabled=true;
+  try{ schoolCard=await getJSON(lookupUrl("/api/schools",cs)); showResolved("sc-city","sc-state","sc-zip",schoolCard); renderSchoolTab(); }
+  catch(e){ schoolCard=null; host.textContent=""; host.appendChild(el("div","msg","Could not load school data: "+e.message)); }
+  $("sc-go").disabled=false;
+}
+$("schoolform").addEventListener("submit",e=>{e.preventDefault(); const cs=cityState("sc-city","sc-state","sc-zip"); if(cs) loadSchools(cs);});
+$("sc-metric").addEventListener("change",renderSchoolTab);
+
+// ---------- home prices tab ----------
+let priceData=null;
+const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function monthLabel(d){return MONTHS[+d.slice(5,7)-1]+" "+d.slice(0,4);}
+function renderPrices(){
+  const host=$("pr-out"); host.textContent=""; const d=priceData; if(!d) return;
+  const key=$("pr-series").value, ser=d.series[key]||d.series.zhvi, months=+$("pr-range").value;
+  let pts=ser.points; if(months) pts=pts.slice(-months);
+  const s=d.stats;
+  const h=el("h3",null,d.city+", "+d.state+" · Zillow "+d.geo+" region "+d.region); h.style.cssText="margin:18px 0 0;font:600 1.15rem var(--sans)"; host.appendChild(h);
+  host.appendChild(el("div","hint",d.quality==="exact"?"Exact city match.":"Approximate match: a Zillow region standing in for the city."));
+  const tiles=el("div","tiles");
+  tiles.appendChild(tile("Home value, "+monthLabel(s.latest_month),"$"+fmtInt(s.home_value)));
+  [["1 year",s.change_1y_pct],["3 years",s.change_3y_pct],["5 years",s.change_5y_pct]].forEach(([l,v])=>{ if(v!==null) tiles.appendChild(tile("Home value, last "+l,sgn(v),v>=0?"up":"down")); });
+  tiles.appendChild(tile("From prior peak",sgn(s.from_peak_pct),s.from_peak_pct<-0.5?"down":""));
+  if(s.rent!==undefined) tiles.appendChild(tile("Rent per month","$"+fmtInt(s.rent)));
+  if(s.rent_change_1y_pct!==undefined&&s.rent_change_1y_pct!==null) tiles.appendChild(tile("Rent, last 1 year",sgn(s.rent_change_1y_pct),s.rent_change_1y_pct>=0?"up":"down"));
+  if(s.median_dom!==undefined){ const c=s.median_dom_change_1y_days; tiles.appendChild(tile("Median days on market, "+monthLabel(s.median_dom_month),s.median_dom+" days")); if(c!==null&&c!==undefined) tiles.appendChild(tile("Days on market vs a year earlier",(c>0?"+":"")+c+" days",c>0?"down":c<0?"up":"")); }
+  if(s.dtp!==undefined){ const c=s.dtp_change_1y_days; tiles.appendChild(tile("Days to pending (Zillow metro), "+monthLabel(s.dtp_month),s.dtp+" days")); if(c!==null&&c!==undefined) tiles.appendChild(tile("Days to pending vs a year earlier",(c>0?"+":"")+c+" days",c>0?"down":c<0?"up":"")); }
+  host.appendChild(tiles);
+  for(const n of (d.notes||[])) host.appendChild(el("p","hint",n));
+  const panel=el("div","panel"); panel.appendChild(el("strong",null,ser.label)); const chart=el("div"); panel.appendChild(chart); host.appendChild(panel);
+  const u=ser.unit, fmt=(v,tip)=>u==="$"?"$"+fmtInt(v):u==="$/mo"?"$"+fmtInt(v)+(tip?" a month":""):u==="%"?sgn(v):u==="days"?Math.round(v)+(tip?" days":""):v.toFixed(1)+(tip?" years":"");
+  const xs=pts.map(p=>({x:Date.parse(p[0]+"T00:00:00Z"),y:p[1],label:monthLabel(p[0])}));
+  const yrs=[...new Set(pts.map(p=>p[0].slice(0,4)))]; const step=Math.max(1,Math.ceil(yrs.length/8));
+  const ticks=yrs.filter((y,i)=>i%step===0).map(y=>({x:Date.parse(y+"-01-01T00:00:00Z"),label:y})).filter(t=>t.x>=xs[0].x&&t.x<=xs[xs.length-1].x);
+  drawChart(chart,xs,{fmt,ticks,zero:u==="%",desc:ser.label+" for "+d.city+", "+d.state+", "+monthLabel(pts[0][0])+" to "+monthLabel(pts[pts.length-1][0])});
+  host.appendChild(tableOf(["Month",ser.label],pts.slice().reverse().map(p=>[monthLabel(p[0]),fmt(p[1])])));
+  host.appendChild(el("p","hint","Source: "+d.source+". Data from "+monthLabel(s.first_month)+" to "+monthLabel(s.latest_month)+"."));
+}
+async function loadPrices(cs){
+  const host=$("pr-out"); host.textContent="Loading… (the first lookup downloads Zillow's file, which can take a minute)"; $("pr-go").disabled=true;
+  try{
+    priceData=await getJSON(lookupUrl("/api/prices",cs)); showResolved("pr-city","pr-state","pr-zip",priceData);
+    const sel=$("pr-series"), keep=sel.value; sel.textContent="";
+    for(const [k,v] of Object.entries(priceData.series)){ const o=el("option",null,v.label); o.value=k; sel.appendChild(o); }
+    if(priceData.series[keep]) sel.value=keep; renderPrices();
+  }catch(e){ priceData=null; host.textContent=""; host.appendChild(el("div","msg","Could not load price data: "+e.message)); }
+  $("pr-go").disabled=false;
+}
+$("priceform").addEventListener("submit",e=>{e.preventDefault(); const cs=cityState("pr-city","pr-state","pr-zip"); if(cs) loadPrices(cs);});
+$("pr-series").addEventListener("change",renderPrices); $("pr-range").addEventListener("change",renderPrices);
+(function(){ const sel=$("pr-series"); const o=el("option",null,"Home value (ZHVI)"); o.value="zhvi"; sel.appendChild(o); })();
+
+// ---------- ask tab: school-only answers point to the tab ----------
+function renderHeadlines(h){
+  for(const [place,items] of Object.entries(h)){
+    const box=el("div","panel"); box.appendChild(el("strong",null,"Recent housing headlines · "+place));
+    const ul=el("ul","sig");
+    items.forEach(it=>{ if(!/^https?:\/\//.test(it.url)) return; const li=el("li"); const a=el("a",null,it.title); a.href=it.url; a.target="_blank"; a.rel="noopener noreferrer"; li.appendChild(a); li.appendChild(document.createTextNode(" · "+it.domain)); ul.appendChild(li); });
+    box.appendChild(ul); box.appendChild(el("p","hint","Headlines are shown for context only. They were not read by any model and do not change the signal."));
+    $("places").appendChild(box);
+  }
+}
+function renderSchoolLinks(cards){
+  cards.forEach(c=>{
+    const a=el("a","seeall","See "+c.district+" enrollment history in the School enrollment tab"); a.href="#schools";
+    a.addEventListener("click",()=>{ $("sc-city").value=c.city; $("sc-state").value=c.state; $("sc-zip").value=""; loadSchools({city:c.city,st:c.state,zip:""}); });
+    $("places").appendChild(a);
+  });
+}
+$("form").addEventListener("submit", async e=>{
+  e.preventDefault(); if(busy) return;
+  const q=$("query").value.trim(); if(!q){ $("query").focus(); return; }
+  busy=true; $("go").disabled=true; $("go").textContent="Asking…";
+  $("out").hidden=false; for(const id of ["answer","by","notes","places","trail"]) $(id).textContent="";
+  $("status").textContent="Reading your question…"; for(const k in rows) delete rows[k];
+  try{
+    const resp = await fetch("/api/ask",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({query:q,model:$("model").value,judge_signals:$("judge").checked,writer:$("writer").value})});
+    if(!resp.ok){ const j=await resp.json().catch(()=>({})); throw new Error(j.error||("HTTP "+resp.status)); }
+    const reader=resp.body.getReader(); const dec=new TextDecoder(); let buf="";
+    const outlooks=[];
+    for(;;){
+      const {value,done}=await reader.read(); if(done) break;
+      buf+=dec.decode(value,{stream:true}); let i;
+      while((i=buf.indexOf("\n"))>=0){ const line=buf.slice(0,i); buf=buf.slice(i+1); if(!line.trim()) continue; onEvent(JSON.parse(line)); }
+    }
+  }catch(err){ $("answer").textContent="Could not complete the request: "+err.message; $("status").textContent=""; }
+  busy=false; $("go").disabled=false; $("go").textContent="Ask"; loadHistory();
+});
+showView();
+init();
+</script>
+</body>
+</html>

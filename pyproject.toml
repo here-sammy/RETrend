@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "retrend"
+version = "0.0.30"
+description = "Multi-agent real estate price trend signals (supervisor + specialist workers)"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.5",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+# Chat-model providers for config/models.yaml (installed only if you use them)
+llm = [
+    "langchain-core",
+    "langchain-ollama",
+]
+# Optional hosted providers (free tiers), usable from models.yaml
+cloud = [
+    "langchain-groq",
+]
+# MCP server in src/retrend/mcp_servers. Pinned to the 1.x line: the code uses
+# mcp.server.fastmcp, which 2.x reworked (migration guide: modelcontextprotocol/python-sdk).
+mcp = ["mcp>=1.28,<2"]
+graph = ["langgraph>=0.2"]
+duckdb = ["duckdb>=1.0"]
+
+[project.scripts]
+retrend = "retrend.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"retrend.ui" = ["static/*.html"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "tests"]
+testpaths = ["tests"]

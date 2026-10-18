@@ -1,0 +1,44 @@
+# Models to compare. The names on the left are what you pass to --models.
+#
+# These run locally through Ollama (https://ollama.com): no API key, no rate limits.
+# Ollama must be running, and each model must be pulled first:
+#     ollama pull qwen3:8b
+#     ollama pull llama3.1:8b
+# Model tags change often. Run `ollama list` to see what you have, check the Ollama
+# library for newer Qwen/Llama tags that fit your hardware, and edit the spec below.
+#
+# spec is "provider:model_id" (split on the first colon, so tags like qwen3:8b are fine).
+# params are passed straight to the LangChain chat class (for ollama: ChatOllama).
+models:
+  qwen:
+    spec: "ollama:qwen3:8b"
+    parallel: 1          # local CPU/iGPU: one question at a time (more only queues and slows others)
+    # params:
+    #   keep_alive: "24h"       # keeps the model in memory between calls (same as OLLAMA_KEEP_ALIVE)
+    #   reasoning: false        # skip Qwen3's long thinking trace: the biggest speedup
+    #   num_predict: 300
+    #   num_ctx: 2048
+    #   temperature: 0.2
+    #   base_url: "http://localhost:11434"   # only if Ollama is not on the default port
+
+  llama:
+    spec: "ollama:llama3.1:8b"
+    parallel: 1
+    # params: {keep_alive: "24h", num_predict: 300, num_ctx: 2048, temperature: 0.2}
+
+  # Small open-weight model from Google: no thinking trace, fast on a CPU.
+  #   ollama pull gemma3:4b
+  gemma:
+    spec: "ollama:gemma3:4b"
+    parallel: 1
+    params: {keep_alive: "24h", num_predict: 300, num_ctx: 2048, temperature: 0.2}
+
+  # Another small offline option:  ollama pull phi4-mini
+  # phi:
+  #   spec: "ollama:phi4-mini"
+  #   parallel: 1
+  #   params: {keep_alive: "24h", num_predict: 300, num_ctx: 2048, temperature: 0.2}
+
+  # Hosted free-tier example (need `pip install -e ".[cloud]"` and the key in .env):
+  # qwen-groq:
+  #   spec: "groq:qwen/qwen3.8-27b"             # GROQ_API_KEY

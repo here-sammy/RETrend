@@ -1,0 +1,65 @@
+# Locations for backtests: 30 large U.S. cities. Only city and state are needed.
+# Names must match Zillow's (city file, or metro principal city). The backtest skips and
+# reports any location it cannot find, so a wrong name costs a line of output, not a crash.
+# More locations = a more trustworthy backtest; the cross-section needs at least 8 per date.
+cities:
+  - city: New York
+    state: NY
+  - city: Los Angeles
+    state: CA
+  - city: Chicago
+    state: IL
+  - city: Houston
+    state: TX
+  - city: Phoenix
+    state: AZ
+  - city: Philadelphia
+    state: PA
+  - city: San Antonio
+    state: TX
+  - city: San Diego
+    state: CA
+  - city: Dallas
+    state: TX
+  - city: Jacksonville
+    state: FL
+  - city: Austin
+    state: TX
+  - city: San Jose
+    state: CA
+  - city: Columbus
+    state: OH
+  - city: Charlotte
+    state: NC
+  - city: Indianapolis
+    state: IN
+  - city: San Francisco
+    state: CA
+  - city: Seattle
+    state: WA
+  - city: Denver
+    state: CO
+  - city: Nashville
+    state: TN
+  - city: Washington
+    state: DC
+  - city: Boston
+    state: MA
+  - city: Las Vegas
+    state: NV
+  - city: Portland
+    state: OR
+  - city: Atlanta
+    state: GA
+  - city: Miami
+    state: FL
+  - city: Tampa
+    state: FL
+  - city: Minneapolis
+    state: MN
+  - city: Sacramento
+    state: CA
+  - city: Salt Lake City
+    state: UT
+  - city: Kansas City
+    state: MO
