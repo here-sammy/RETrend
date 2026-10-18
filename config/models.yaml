@@ -11,34 +11,24 @@
 # params are passed straight to the LangChain chat class (for ollama: ChatOllama).
 models:
   qwen:
-    spec: "ollama:qwen3:8b"
-    parallel: 1          # local CPU/iGPU: one question at a time (more only queues and slows others)
-    # params:
-    #   keep_alive: "24h"       # keeps the model in memory between calls (same as OLLAMA_KEEP_ALIVE)
-    #   reasoning: false        # skip Qwen3's long thinking trace: the biggest speedup
-    #   num_predict: 300
-    #   num_ctx: 2048
-    #   temperature: 0.2
-    #   base_url: "http://localhost:11434"   # only if Ollama is not on the default port
+    spec: "ollama:qwen3:4b-instruct"
+    params:
+      temperature: 0.1
+      base_url: "http://localhost:11434"   # only if Ollama is not on the default port
+      reasoning: false
+      num_predict: 300
+      num_ctx: 2048
+      num_thread: 8
 
   llama:
-    spec: "ollama:llama3.1:8b"
-    parallel: 1
-    # params: {keep_alive: "24h", num_predict: 300, num_ctx: 2048, temperature: 0.2}
+    spec: "ollama:llama3.2:1b"
 
-  # Small open-weight model from Google: no thinking trace, fast on a CPU.
-  #   ollama pull gemma3:4b
   gemma:
     spec: "ollama:gemma3:4b"
-    parallel: 1
-    params: {keep_alive: "24h", num_predict: 300, num_ctx: 2048, temperature: 0.2}
 
-  # Another small offline option:  ollama pull phi4-mini
-  # phi:
-  #   spec: "ollama:phi4-mini"
-  #   parallel: 1
-  #   params: {keep_alive: "24h", num_predict: 300, num_ctx: 2048, temperature: 0.2}
-
-  # Hosted free-tier example (need `pip install -e ".[cloud]"` and the key in .env):
+  # Hosted free-tier examples (need `pip install -e ".[cloud]"` and the key in .env):
+  gemini:
+    spec: "google_genai:gemini-3.8-flash"     # GOOGLE_API_KEY
+    parallel: 8
   # qwen-groq:
   #   spec: "groq:qwen/qwen3.8-27b"             # GROQ_API_KEY

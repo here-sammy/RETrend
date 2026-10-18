@@ -47,8 +47,8 @@ python -m unittest discover -s tests
 Local models (optional, no API key): install [Ollama](https://ollama.com), then pull the three models the project ships with:
 
 ```
-ollama pull qwen3:8b
-ollama pull llama3.1:8b
+ollama pull qwen3:4b-instruct
+ollama pull llama3.2:1b
 ollama pull gemma3:4b
 ```
 
@@ -151,9 +151,9 @@ Models as the judge (369 cases, 13 dates):
 | Judge | Accuracy | Balanced accuracy | Seconds per call (CPU) |
 |---|---|---|---|
 | Rules only | 65.6% | 45.7% | n/a |
-| qwen3:8b | 64.2% | 45.6% | 11.8 |
+| qwen3:4b-instruct | 64.2% | 45.6% | 11.8 |
 | gemma3:4b | 62.3% | 43.7% | 34.6 |
-| llama3.1:8b | 64.0% | 34.2% | 33.3 |
+| llama3.2:1b | 64.0% | 34.2% | 33.3 |
 
 All signals with qwen as the judge (390 cases, 13 dates, split at 2022-06-30):
 
@@ -176,6 +176,8 @@ Does school enrollment predict later prices? (`retrend schools-test`, 16 of 30 c
 Extra signals, judged by qwen (390 cases, 13 dates, split 2022-06-30): adding schools, jobs or permits at a 0.1 or 0.2 weight changed nothing meaningful, schools alone and jobs alone scored below chance, and the weight tuner's recommendation was to keep the defaults. Qwen's confidence was badly off: cases at 0.7 to 1.0 confidence were right 29% of the time.
 
 School enrollment test (`schools-test`, 16 of 30 cities had enough district data, 208 rows): the average rank correlation between enrollment growth and the next 12 months of price growth was -0.06 (90% interval -0.14 to +0.02), and +0.00 (-0.12 to +0.16) after removing prior price momentum. No detectable relationship, so schools stay context only.
+
+Models were run locally through Ollama on a laptop CPU, with no GPU.
 
 A model did not beat the rules, and tuning weights did not beat the defaults, so the defaults stay. Adding jobs, permits or schools at a non-zero weight added no gain. Backtests with a model are contaminated: a model trained through 2025 may remember what happened after a past date, so forward tracking is the honest test.
 

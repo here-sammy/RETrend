@@ -359,7 +359,7 @@ class ConfigAndChatTests(unittest.TestCase):
         models = load_models(ROOT / "config" / "models.yaml")
         self.assertEqual(set(models), {"qwen", "llama", "gemma"})
         self.assertEqual(models["qwen"].provider, "ollama")
-        self.assertEqual(models["qwen"].model_id, "qwen3:8b")  # tag keeps its own colon
+        self.assertEqual(models["qwen"].model_id, "qwen3:4b-instruct")  # tag keeps its own colon
 
     def test_models_yaml_validation(self):
         with tempfile.TemporaryDirectory() as tmp:

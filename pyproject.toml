@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "retrend"
-version = "0.0.30"
+version = "0.0.32"
 description = "Multi-agent real estate price trend signals (supervisor + specialist workers)"
 readme = "README.md"
 license = {text = "MIT"}
