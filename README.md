@@ -196,6 +196,8 @@ The sidebar remembers your last 5 different questions. Zillow lists only a mean,
 
 Useful `.env` settings are listed in `.env.example`: link overrides if a download URL changes, `RETREND_PERMITS_RULE=context|demand|supply`, `RETREND_NEWS_SOURCE=gnews|gdelt`.
 
+Saved outputs of these runs are in [`results/`](results/).
+
 ## Project layout
 
 ```
@@ -209,6 +211,7 @@ src/retrend/
   llm.py           one JSON-judging path for every model: retries, caching, parallel prefetch
   store.py         SQLite cache for raw pulls and model replies
 tests/             unit and end-to-end tests with fakes (no network or model needed)
+results/           saved backtest, model-comparison and schools-test outputs
 docs/              project plan
 ```
 

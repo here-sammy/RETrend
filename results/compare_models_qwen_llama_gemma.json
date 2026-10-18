@@ -1,0 +1,369 @@
+{
+  "horizon_months": 12,
+  "threshold_pct": 2.0,
+  "n_common_cases": 369,
+  "n_dates": 13,
+  "n_locations": 30,
+  "label_mix": {
+    "down": 41,
+    "flat": 85,
+    "up": 243
+  },
+  "models": {
+    "rules": {
+      "accuracy": 0.6558,
+      "balanced_accuracy": 0.4567,
+      "spearman_per_date": 0.2847,
+      "n_up": 271,
+      "n_down": 27,
+      "mean_fwd_when_up": 7.09,
+      "mean_fwd_when_down": 1.46,
+      "spread": 5.63,
+      "n_scored": 369,
+      "n_attempted": 390,
+      "valid_rate": 1.0,
+      "mean_confidence": 0.244,
+      "seconds": 1.4,
+      "fallbacks": 0,
+      "overconfidence": -0.412,
+      "seconds_per_call": null,
+      "vs_plain_trend": {
+        "mean_accuracy_diff": 0.0376,
+        "ci90": [
+          0.0217,
+          0.0615
+        ],
+        "n_dates": 13,
+        "block_len": 2
+      }
+    },
+    "gemma": {
+      "accuracy": 0.6233,
+      "balanced_accuracy": 0.4373,
+      "spearman_per_date": 0.3864,
+      "n_up": 278,
+      "n_down": 73,
+      "mean_fwd_when_up": 6.96,
+      "mean_fwd_when_down": 1.42,
+      "spread": 5.54,
+      "n_scored": 369,
+      "n_attempted": 390,
+      "valid_rate": 1.0,
+      "mean_confidence": 0.555,
+      "seconds": 21281.9,
+      "calls": 616,
+      "cache_hits": 554,
+      "parse_failures": 0,
+      "provider_errors": 0,
+      "failures": 0,
+      "fallbacks": 0,
+      "overconfidence": -0.068,
+      "seconds_per_call": 34.55,
+      "agreement_with_rules": 0.786,
+      "vs_plain_trend": {
+        "mean_accuracy_diff": 0.0046,
+        "ci90": [
+          -0.0351,
+          0.0486
+        ],
+        "n_dates": 13,
+        "block_len": 2
+      },
+      "vs_rules": {
+        "mean_accuracy_diff": -0.033,
+        "ci90": [
+          -0.086,
+          0.0092
+        ],
+        "n_dates": 13,
+        "block_len": 2
+      }
+    },
+    "llama": {
+      "accuracy": 0.6396,
+      "balanced_accuracy": 0.3416,
+      "spearman_per_date": 0.0112,
+      "n_up": 347,
+      "n_down": 4,
+      "mean_fwd_when_up": 5.55,
+      "mean_fwd_when_down": 11.3,
+      "spread": -5.75,
+      "n_scored": 369,
+      "n_attempted": 390,
+      "valid_rate": 0.946,
+      "mean_confidence": 0.463,
+      "seconds": 22488.6,
+      "calls": 675,
+      "cache_hits": 564,
+      "parse_failures": 90,
+      "provider_errors": 0,
+      "failures": 21,
+      "fallbacks": 21,
+      "overconfidence": -0.177,
+      "seconds_per_call": 33.32,
+      "agreement_with_rules": 0.707,
+      "vs_plain_trend": {
+        "mean_accuracy_diff": 0.0203,
+        "ci90": [
+          -0.0263,
+          0.0863
+        ],
+        "n_dates": 13,
+        "block_len": 2
+      },
+      "vs_rules": {
+        "mean_accuracy_diff": -0.0173,
+        "ci90": [
+          -0.065,
+          0.0371
+        ],
+        "n_dates": 13,
+        "block_len": 2
+      }
+    },
+    "qwen": {
+      "accuracy": 0.6423,
+      "balanced_accuracy": 0.4555,
+      "spearman_per_date": 0.39,
+      "n_up": 275,
+      "n_down": 43,
+      "mean_fwd_when_up": 6.92,
+      "mean_fwd_when_down": 0.93,
+      "spread": 5.98,
+      "n_scored": 369,
+      "n_attempted": 390,
+      "valid_rate": 1.0,
+      "mean_confidence": 0.694,
+      "seconds": 9372.6,
+      "calls": 793,
+      "cache_hits": 377,
+      "parse_failures": 0,
+      "provider_errors": 0,
+      "failures": 0,
+      "fallbacks": 0,
+      "overconfidence": 0.052,
+      "seconds_per_call": 11.82,
+      "agreement_with_rules": 0.848,
+      "vs_plain_trend": {
+        "mean_accuracy_diff": 0.0221,
+        "ci90": [
+          -0.0184,
+          0.0704
+        ],
+        "n_dates": 13,
+        "block_len": 2
+      },
+      "vs_rules": {
+        "mean_accuracy_diff": -0.0155,
+        "ci90": [
+          -0.0662,
+          0.0247
+        ],
+        "n_dates": 13,
+        "block_len": 2
+      }
+    }
+  },
+  "baselines": {
+    "base_trend": {
+      "accuracy": 0.6179,
+      "balanced_accuracy": 0.4001,
+      "spearman_per_date": 0.4116,
+      "n_up": 284,
+      "n_down": 31,
+      "mean_fwd_when_up": 6.66,
+      "mean_fwd_when_down": 2.27,
+      "spread": 4.38
+    },
+    "base_flat": {
+      "accuracy": 0.2304,
+      "balanced_accuracy": 0.3333,
+      "spearman_per_date": null,
+      "n_up": 0,
+      "n_down": 0,
+      "mean_fwd_when_up": null,
+      "mean_fwd_when_down": null,
+      "spread": null
+    },
+    "base_up": {
+      "accuracy": 0.6585,
+      "balanced_accuracy": 0.3333,
+      "spearman_per_date": null,
+      "n_up": 369,
+      "n_down": 0,
+      "mean_fwd_when_up": 5.67,
+      "mean_fwd_when_down": null,
+      "spread": null
+    }
+  },
+  "head_to_head": {
+    "gemma vs llama": {
+      "mean_accuracy_diff": -0.0157,
+      "ci90": [
+        -0.0899,
+        0.0316
+      ],
+      "n_dates": 13,
+      "block_len": 2
+    },
+    "gemma vs qwen": {
+      "mean_accuracy_diff": -0.0175,
+      "ci90": [
+        -0.053,
+        0.0119
+      ],
+      "n_dates": 13,
+      "block_len": 2
+    },
+    "llama vs gemma": {
+      "mean_accuracy_diff": 0.0157,
+      "ci90": [
+        -0.0316,
+        0.0899
+      ],
+      "n_dates": 13,
+      "block_len": 2
+    },
+    "llama vs qwen": {
+      "mean_accuracy_diff": -0.0018,
+      "ci90": [
+        -0.0437,
+        0.0627
+      ],
+      "n_dates": 13,
+      "block_len": 2
+    },
+    "qwen vs gemma": {
+      "mean_accuracy_diff": 0.0175,
+      "ci90": [
+        -0.0119,
+        0.053
+      ],
+      "n_dates": 13,
+      "block_len": 2
+    },
+    "qwen vs llama": {
+      "mean_accuracy_diff": 0.0018,
+      "ci90": [
+        -0.0627,
+        0.0437
+      ],
+      "n_dates": 13,
+      "block_len": 2
+    }
+  },
+  "tuning": {
+    "rules": {
+      "chosen_weights": {
+        "mortgage_rates": 0.4,
+        "housing_prices": 0.2,
+        "supply": 0.4
+      },
+      "default_weights": {
+        "mortgage_rates": 0.0,
+        "housing_prices": 0.5,
+        "supply": 0.5
+      },
+      "grid_step": 0.1,
+      "n_candidates": 66,
+      "train_balanced_accuracy": 0.6324,
+      "best_train_balanced_accuracy": 0.6342,
+      "test_balanced_accuracy_chosen": 0.3834,
+      "test_balanced_accuracy_default": 0.3419,
+      "test_paired_accuracy_diff": {
+        "n_dates": 5,
+        "note": "too few dates for an interval"
+      },
+      "recommendation": "KEEP THE DEFAULTS: any out-of-sample difference is within noise.",
+      "n_train": 210,
+      "n_test": 150,
+      "note": "Chosen on train only; near-ties go to the weights closest to the defaults. Adopt the new weights only if the recommendation says ADOPT."
+    },
+    "gemma": {
+      "chosen_weights": {
+        "mortgage_rates": 0.4,
+        "housing_prices": 0.3,
+        "supply": 0.3
+      },
+      "default_weights": {
+        "mortgage_rates": 0.0,
+        "housing_prices": 0.5,
+        "supply": 0.5
+      },
+      "grid_step": 0.1,
+      "n_candidates": 66,
+      "train_balanced_accuracy": 0.5621,
+      "best_train_balanced_accuracy": 0.5621,
+      "test_balanced_accuracy_chosen": 0.3566,
+      "test_balanced_accuracy_default": 0.288,
+      "test_paired_accuracy_diff": {
+        "n_dates": 5,
+        "note": "too few dates for an interval"
+      },
+      "recommendation": "KEEP THE DEFAULTS: any out-of-sample difference is within noise.",
+      "n_train": 210,
+      "n_test": 150,
+      "note": "Chosen on train only; near-ties go to the weights closest to the defaults. Adopt the new weights only if the recommendation says ADOPT."
+    },
+    "llama": {
+      "chosen_weights": {
+        "mortgage_rates": 0.3,
+        "housing_prices": 0.3,
+        "supply": 0.4
+      },
+      "default_weights": {
+        "mortgage_rates": 0.0,
+        "housing_prices": 0.5,
+        "supply": 0.5
+      },
+      "grid_step": 0.1,
+      "n_candidates": 66,
+      "train_balanced_accuracy": 0.3578,
+      "best_train_balanced_accuracy": 0.3578,
+      "test_balanced_accuracy_chosen": 0.3275,
+      "test_balanced_accuracy_default": 0.3506,
+      "test_paired_accuracy_diff": {
+        "n_dates": 5,
+        "note": "too few dates for an interval"
+      },
+      "recommendation": "KEEP THE DEFAULTS: any out-of-sample difference is within noise.",
+      "n_train": 210,
+      "n_test": 150,
+      "note": "Chosen on train only; near-ties go to the weights closest to the defaults. Adopt the new weights only if the recommendation says ADOPT."
+    },
+    "qwen": {
+      "chosen_weights": {
+        "mortgage_rates": 0.0,
+        "housing_prices": 0.9,
+        "supply": 0.1
+      },
+      "default_weights": {
+        "mortgage_rates": 0.0,
+        "housing_prices": 0.5,
+        "supply": 0.5
+      },
+      "grid_step": 0.1,
+      "n_candidates": 66,
+      "train_balanced_accuracy": 0.5763,
+      "best_train_balanced_accuracy": 0.5763,
+      "test_balanced_accuracy_chosen": 0.3285,
+      "test_balanced_accuracy_default": 0.3229,
+      "test_paired_accuracy_diff": {
+        "n_dates": 5,
+        "note": "too few dates for an interval"
+      },
+      "recommendation": "KEEP THE DEFAULTS: any out-of-sample difference is within noise.",
+      "n_train": 210,
+      "n_test": 150,
+      "note": "Chosen on train only; near-ties go to the weights closest to the defaults. Adopt the new weights only if the recommendation says ADOPT."
+    }
+  },
+  "caveats": [
+    "Zillow and Redfin revise history and have no vintage API, so housing/supply inputs are the current files truncated to each date (not point-in-time). Mortgage rates are point-in-time. Results are optimistic to an unknown degree.",
+    "Neighbouring dates share forward windows, and cities move with the national cycle, so the effective sample size is far smaller than the row count (see n_dates).",
+    "If a language model made the judgments, it may remember what happened after the date. Treat model backtests as upper bounds; the forward ledger (retrend track) is the clean test.",
+    "Ground truth is the Zillow Home Value Index, a smoothed modeled series, not sale prices."
+  ],
+  "split": "2022-06-30",
+  "verdict": "Most accurate: qwen at 64.2% (rules 65.6%) on 369 common cases over 13 dates. Its edge over the rules is within noise, so it is not shown to be better."
+}

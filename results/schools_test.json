@@ -1,0 +1,53 @@
+{
+  "horizon_months": 12,
+  "n_rows": 208,
+  "n_cities_matched": 16,
+  "n_cities_total": 30,
+  "unmatched": {
+    "los-angeles-ca": "NoDataAsOf: only 1 years of enrollment available as of 2018-06-30",
+    "chicago-il": "NoDataAsOf: only 0 years of enrollment available as of 2018-06-30",
+    "san-diego-ca": "no usable dates",
+    "jacksonville-fl": "NoDistrictMatch: no school district starting with 'Jacksonville' in FL; closest names in FL: ['JA",
+    "san-jose-ca": "NoDataAsOf: only 1 years of enrollment available as of 2018-06-30",
+    "san-francisco-ca": "no usable dates",
+    "denver-co": "NoDataAsOf: only 1 years of enrollment available as of 2018-06-30",
+    "nashville-tn": "NoDistrictMatch: no school district starting with 'Nashville' in TN; closest names in TN: ['Maryv",
+    "las-vegas-nv": "NoDistrictMatch: no school district starting with 'Las Vegas' in NV",
+    "atlanta-ga": "NoDataAsOf: only 2 years of enrollment available as of 2018-06-30",
+    "miami-fl": "NoDistrictMatch: no school district starting with 'Miami' in FL; closest names in FL: ['MIAMI-DAD",
+    "tampa-fl": "NoDistrictMatch: no school district starting with 'Tampa' in FL",
+    "sacramento-ca": "NoDataAsOf: only 1 years of enrollment available as of 2018-06-30",
+    "salt-lake-city-ut": "NoDistrictMatch: no school district starting with 'Salt Lake City' in UT; closest names in UT: ['"
+  },
+  "limits": [
+    "Few cities and overlapping 12-month windows mean a small effective sample: only a large effect can show up. 'No detectable relationship' is not 'no relationship'.",
+    "School data is the current, revised file; each school year is treated as public from June 30 of the following year, which is an assumption.",
+    "A district stands in for the city; district boundaries often differ from city limits.",
+    "A relationship here would show correlation, not that enrollment drives prices (births, migration and school choice move both)."
+  ],
+  "n_dates": 13,
+  "raw": {
+    "mean": -0.063,
+    "ci90": [
+      -0.1444,
+      0.017
+    ],
+    "n_dates": 13
+  },
+  "controlled": {
+    "mean": 0.0045,
+    "ci90": [
+      -0.1195,
+      0.1567
+    ],
+    "n_dates": 13
+  },
+  "direction_spread": {
+    "n_up": 49,
+    "n_down": 80,
+    "mean_fwd_when_up": 4.21,
+    "mean_fwd_when_down": 5.71,
+    "spread": -1.51
+  },
+  "verdict": "Average rank correlation between enrollment growth and the next 12 months of price growth: -0.06 (90% interval -0.14 to +0.02); after removing recent price momentum: +0.00 (-0.12 to +0.16). No detectable relationship. Keep schools as context only (weight 0)."
+}
